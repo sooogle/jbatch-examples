@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="reader-retry" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" version="1.0">
+  <step id="reader-retry-step">
+  	<listeners>
+  		<listener ref="com.soogle.jbatch.common.SampleChunkListener" />
+  	</listeners>
+    <chunk item-count="4" retry-limit="5">
+    		<reader ref="com.soogle.jbatch.reader_retry.SampleReader" />
+    		<processor ref="com.soogle.jbatch.common.SampleProcessor" />
+    		<writer ref="com.soogle.jbatch.reader_retry.SampleWriter" />
+    		
+    		<!-- リトライ対象の例外クラスを定義 -->
+    		<retryable-exception-classes>
+    			<include class="java.lang.RuntimeException"/>
+    		</retryable-exception-classes>
+    </chunk>
+  </step>
+</job>
